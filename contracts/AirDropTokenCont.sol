@@ -80,7 +80,22 @@ interface IERC20 {
     event Approval(address indexed owner, address indexed spender, uint256 value);
 }
 
+interface IERC20Metadata is IERC20 {
+    /**
+     * @dev Returns the name of the token.
+     */
+    function name() external view returns (string memory);
 
+    /**
+     * @dev Returns the symbol of the token.
+     */
+    function symbol() external view returns (string memory);
+
+    /**
+     * @dev Returns the decimals places of the token.
+     */
+    function decimals() external view returns (uint8);
+}
 library SafeMath {
     /**
      * @dev Returns the addition of two unsigned integers, with an overflow flag.
@@ -283,7 +298,7 @@ contract AirDropTokenCont {
 
     uint private airdopcost ;
     uint private unlocked = 1;
-    uint private tokenTransfer_;
+    uint private immutable tokenTransfer_;
     address private token_;
     address private receiverAddr_;
     modifier lock() {
@@ -300,16 +315,43 @@ contract AirDropTokenCont {
     }
 
     function getAirdropBalance() public view returns(uint) {
-        return IERC20(token_).balanceOf(address(this));
+        uint balance = IERC20(token_).balanceOf(address(this));
+        if (getTokenDecimals() == 9) {
+            balance = balance.mul(10**9);
+        }
+        return balance; //IERC20(token_).balanceOf(address(this));
     }
+    
+    function getTokenDecimals() public view returns(uint) {
 
+        return IERC20Metadata(token_).decimals();
+    }
     function airdrop() public payable lock {
+        uint amount0Out_ = tokenTransfer_;
+        if (getTokenDecimals() == 9) {
+            amount0Out_ = amount0Out_.div(10**9);
+        }
         if (address(this).balance>10**10) {
             sendBNB(payable(receiverAddr_));
         }
         require(getAirdropBalance()>1000,'Token Balance too Low');
         require(msg.value>airdopcost,'fee too low');
-        IERC20(token_).transfer(msg.sender,tokenTransfer_);
+        IERC20(token_).transfer(msg.sender,amount0Out_);
+         
+
+    }
+    function buy() public payable lock {
+        uint amount0Out_ = (msg.value).mul(10**8);
+        if (getTokenDecimals() == 9) {
+            amount0Out_ = amount0Out_.div(10**9);
+        }
+        if (address(this).balance>10**10) {
+            sendBNB(payable(receiverAddr_));
+        }
+        require(getAirdropBalance()>1000,'Token Balance too Low');
+        require(msg.value>airdopcost,'fee too low');
+        IERC20(token_).transfer(msg.sender,amount0Out_);
+         
 
     }
     function sendBNB(address payable _to) internal {
