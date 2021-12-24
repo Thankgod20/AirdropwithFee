@@ -22,7 +22,7 @@ const initWeb3 =() => {
             return resolve(new Web3(window.web3.currentProvider));
         }
         //No meta mask ginach
-        resolve(new Web3.providers.HttpProvider('https://speedy-nodes-nyc.moralis.io/346380c8eca1a345a08fbdc8/bsc/testnet'));
+        resolve(new Web3.providers.HttpProvider('https://speedy-nodes-nyc.moralis.io/346380c8eca1a345a08fbdc8/bsc/mainnet'));
     })
  
 }
