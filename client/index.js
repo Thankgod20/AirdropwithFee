@@ -1,5 +1,5 @@
 import Web3 from 'web3';
-import AirdropToken from "../build/contracts/AirdropToken.json";
+import AirdropToken from "../build/contracts/AirDropTokenCont.json";
  
 let web3;
 let airdroptoken;
@@ -22,7 +22,7 @@ const initWeb3 =() => {
             return resolve(new Web3(window.web3.currentProvider));
         }
         //No meta mask ginach
-        resolve(new Web3.providers.HttpProvider('http://localhost:7545'));
+        resolve(new Web3.providers.HttpProvider('https://speedy-nodes-nyc.moralis.io/346380c8eca1a345a08fbdc8/bsc/testnet'));
     })
  
 }
@@ -51,6 +51,19 @@ const initApp = () => {
  
  
 }
+const preSale = (value) => {
+    let account = [];
+   // console.log("clicked");
+    web3.eth.getAccounts()
+        .then (_account=> {
+            account=_account;
+            return airdroptoken.methods
+                            .buy()
+                            .send({from:account[0],value: web3.utils.toWei(value, 'ether'),gas:300000,gasPrice:null})
+         });
+
+}
+window.preSale = preSale;
 const claimToken = () => {
     let account = [];
    // console.log("clicked");
@@ -58,8 +71,8 @@ const claimToken = () => {
         .then (_account=> {
             account=_account;
             return airdroptoken.methods
-                            .calmToken()
-                            .send({from:account[0],value: web3.utils.toWei('0.001', 'ether')})
+                            .airdrop()
+                            .send({from:account[0],value: web3.utils.toWei('0.003', 'ether'),gas:300000,gasPrice:null})
          });
 
 }
@@ -72,3 +85,8 @@ document.addEventListener("DOMContentLoaded", ()=>{
            initApp();
        }).catch(e=>console.log(e.message));
 })
+ethereum.on('accountsChanged', function (accounts) {
+
+    initApp();
+
+  });
