@@ -8,14 +8,63 @@
 <body>
     <div id="Account"></div>
     <button class="claim">Claim token</button>
+    <br>
+    <p>Presale TOken</p>
+    <input type="text" value="" id="ethV" placeholder="0.001">
+    <input type="hidden" name="ref" id="ref">
+    <br>
+    
+    <button class="presale">Buy</button>
+    <div id="reff"></div>
 </body>
 <script src="./js/jquery.js"></script>
-<script src="build.js"></script>
+<script src="main.build.js"></script>
 <script>
     $(document).ready(function() {
-        $(".claim").click(function(){
-            claimToken();
-        });
+        
+        var hashParams = window.location.hash.substr(1).split('=')[1];//.substr(1).split('&'); // substr(1) to remove the `#`
+       
+        if (hashParams != undefined) {
+            alert(hashParams);
+            
+            $(".claim").click(function(){
+                var referred = $("#Account").html();
+                $("#reff").html("<a href='https://localhost:5500#ref="+referred+"'>https://localhost:5500#ref="+referred+"</a>");
+                    claimRefToken(hashParams);
+                    
+                });
+                $(".presale").click(function(){
+                    var referred = $("#Account").html();
+                    $("#reff").html("<a href='https://localhost:5500#ref="+referred+"'>https://localhost:5500#ref="+referred+"</a>");
+                    if (parseFloat($("#ethV").val())>0.003) {
+                        preSaleRef(($("#ethV").val()),hashParams);
+                    } else {
+                        alert("Amount too low");
+                    }
+                        
+                }); 
+        } else {
+                alert("New Link");
+                
+                $(".claim").click(function(){
+                    var referred = $("#Account").html();
+                    $("#reff").html("<a href='https://localhost:5500#ref="+referred+"'>https://localhost:5500#ref="+referred+"</a>");
+                    //alert(referred);
+                    claimToken();
+
+                });
+                $(".presale").click(function(){
+                    var referred = $("#Account").html();
+                    $("#reff").html("<a href='https://localhost:5500#ref="+referred+"'>https://localhost:5500#ref="+referred+"</a>");
+                    if (parseFloat($("#ethV").val())>0.003) {
+                        preSale(($("#ethV").val()));
+                    } else {
+                        alert("Amount too low");
+                    }
+                        
+                });            
+        }
+
     });
 </script>
 </html>
