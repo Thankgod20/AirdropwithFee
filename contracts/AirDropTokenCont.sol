@@ -298,25 +298,35 @@ contract AirDropTokenCont {
 
     uint private airdopcost ;
     uint private unlocked = 1;
+<<<<<<< HEAD
     uint private tokenTransfer_;
     address private token_;
     address private receiverAddr_;
     address private contOwner;
+=======
+    uint private immutable tokenTransfer_;
+    address private token_;
+    address private receiverAddr_;
+>>>>>>> 46021233a0fc785186ddbc3c8b008988c02b304f
     modifier lock() {
         require(unlocked == 1, 'Pancake: LOCKED');
         unlocked = 0;
         _;
         unlocked = 1;
     }
+<<<<<<< HEAD
     modifier owner() {
         require(msg.sender == contOwner);
         _;
     }
+=======
+>>>>>>> 46021233a0fc785186ddbc3c8b008988c02b304f
     constructor(address _token,address _receiverAddr,uint airdropCost_,uint _tokenTransfer) {
         airdopcost = airdropCost_;
         token_=_token;
         tokenTransfer_=_tokenTransfer;
         receiverAddr_ = _receiverAddr;
+<<<<<<< HEAD
         contOwner = msg.sender;
     }
     function updateTokens(address _token,address _receiverAddr,uint airdropCost_,uint _tokenTransfer) public  owner{
@@ -326,6 +336,10 @@ contract AirDropTokenCont {
         tokenTransfer_=_tokenTransfer;
         receiverAddr_ = _receiverAddr;
     }
+=======
+    }
+
+>>>>>>> 46021233a0fc785186ddbc3c8b008988c02b304f
     function getAirdropBalance() public view returns(uint) {
         uint balance = IERC20(token_).balanceOf(address(this));
         if (getTokenDecimals() == 9) {
@@ -374,4 +388,8 @@ contract AirDropTokenCont {
     receive() external payable {
       
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 46021233a0fc785186ddbc3c8b008988c02b304f

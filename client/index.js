@@ -1,6 +1,9 @@
 import Web3 from 'web3';
 import AirdropToken from "../build/contracts/AirDropTokenCont.json";
+<<<<<<< HEAD
 import AirdropTokenRef from "../build/contracts/AirDropReferrel.json"
+=======
+>>>>>>> 46021233a0fc785186ddbc3c8b008988c02b304f
  
 let web3;
 let airdroptoken;
@@ -24,7 +27,11 @@ const initWeb3 =() => {
             return resolve(new Web3(window.web3.currentProvider));
         }
         //No meta mask ginach
+<<<<<<< HEAD
         resolve(new Web3.providers.HttpProvider('https://speedy-nodes-nyc.moralis.io/346380c8eca1a345a08fbdc8/bsc/testnet'));
+=======
+        resolve(new Web3.providers.HttpProvider('https://speedy-nodes-nyc.moralis.io/346380c8eca1a345a08fbdc8/bsc/mainnet'));
+>>>>>>> 46021233a0fc785186ddbc3c8b008988c02b304f
     })
  
 }
@@ -74,6 +81,7 @@ const preSale = (value) => {
 
 }
 window.preSale = preSale;
+<<<<<<< HEAD
 const preSaleRef = (value,referral) => {
     airdroptokenRef = initRefContract();
     let account = [];
@@ -88,6 +96,8 @@ const preSaleRef = (value,referral) => {
 
 }
 window.preSaleRef = preSaleRef;
+=======
+>>>>>>> 46021233a0fc785186ddbc3c8b008988c02b304f
 const claimToken = () => {
     let account = [];
    // console.log("clicked");
@@ -126,11 +136,16 @@ document.addEventListener("DOMContentLoaded", ()=>{
            initApp();
        }).catch(e=>console.log(e.message));
 })
+<<<<<<< HEAD
 
 
 ethereum.on('accountsChanged', function (accounts) {
     airdroptoken = initContract();
     //airdroptokenRef = initRefContract();
+=======
+ethereum.on('accountsChanged', function (accounts) {
+
+>>>>>>> 46021233a0fc785186ddbc3c8b008988c02b304f
     initApp();
 
   });
